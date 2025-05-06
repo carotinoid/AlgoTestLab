@@ -64,6 +64,7 @@ foreach(test_file ${TEST_FILES})
         DEPENDS ${test_name}
         COMMENT "Running test: ${test_name}"
     )
+    list(APPEND CHECK_TARGETS check_${test_name})
 endforeach()
 
 # all test targets
