@@ -1,4 +1,4 @@
-#include "graph.hh"
+#include "graphs/graph.hh"
 
 #include <sstream>
 using namespace std;

@@ -1,7 +1,7 @@
-#include "mergesort.hh"
+#include "divide_and_conquer/mergesort.hh"
 
 template <typename... Targs>
-void DUMMY_CODE(Targs &&... /* unused */) {}
+void DUMMY_CODE(Targs &&.../* unused */) {}
 
 /*
 function sort(L[1:n])

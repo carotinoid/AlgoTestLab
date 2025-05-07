@@ -10,7 +10,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-
 file(GLOB LIB_SOURCES "${CMAKE_SOURCE_DIR}/src/*/*.cc" "${CMAKE_SOURCE_DIR}/src/*.cc")
 
 add_library(
@@ -51,22 +50,30 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 # each test target
+set(TEST_BINARY_DIR ${CMAKE_BINARY_DIR}/tests)
+file(MAKE_DIRECTORY ${TEST_BINARY_DIR})
+
 file(GLOB TEST_FILES tests/*.cc)
 
 foreach(test_file ${TEST_FILES})
     get_filename_component(test_name ${test_file} NAME_WE)
+    set(test_target "${TEST_BINARY_DIR}/${test_name}")
 
     add_executable(${test_name} ${test_file})
+    set_target_properties(${test_name} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${TEST_BINARY_DIR}
+    )
+
     target_link_libraries(${test_name} 
         algo
         gtest
         gtest_main
     )
 
-    add_test(NAME ${test_name} COMMAND ${test_name})
+    add_test(NAME ${test_name} COMMAND ${TEST_BINARY_DIR}/${test_name})
 
     add_custom_target(check_${test_name}
-        COMMAND ${test_name}
+        COMMAND ${TEST_BINARY_DIR}/${test_name}
         DEPENDS ${test_name}
         COMMENT "Running test: ${test_name}"
     )
