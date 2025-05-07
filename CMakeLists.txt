@@ -38,15 +38,6 @@ else()
     message(WARNING "clang-format not found!")
 endif()
 
-# GoogleTest
-include(FetchContent)
-FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/refs/heads/main.zip
-)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
 enable_testing()
 
 # each test target
@@ -54,34 +45,40 @@ set(TEST_BINARY_DIR ${CMAKE_BINARY_DIR}/tests)
 file(MAKE_DIRECTORY ${TEST_BINARY_DIR})
 
 file(GLOB TEST_FILES tests/*.cc)
+set(GROUP_TARGETS)
 
 foreach(test_file ${TEST_FILES})
-    get_filename_component(test_name ${test_file} NAME_WE)
-    set(test_target "${TEST_BINARY_DIR}/${test_name}")
+    get_filename_component(test_name ${test_file} NAME_WE)  # e.g., t_dq_binarysearch
+
+    string(REGEX REPLACE "^t_(.*)_([^_]+)$" "\\2" name ${test_name})  
+    string(REGEX REPLACE "^t_(.*)_([^_]+)$" "\\1" group ${test_name})
 
     add_executable(${test_name} ${test_file})
     set_target_properties(${test_name} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${TEST_BINARY_DIR}
     )
 
-    target_link_libraries(${test_name} 
-        algo
-        gtest
-        gtest_main
-    )
+    target_link_libraries(${test_name} algo)
 
     add_test(NAME ${test_name} COMMAND ${TEST_BINARY_DIR}/${test_name})
+    set_tests_properties(${test_name} PROPERTIES TIMEOUT 2)
 
-    add_custom_target(check_${test_name}
-        COMMAND ${TEST_BINARY_DIR}/${test_name}
-        DEPENDS ${test_name}
-        COMMENT "Running test: ${test_name}"
+    add_custom_target(check_${name}
+        COMMAND ${CMAKE_CTEST_COMMAND} -R "^t_.*_${name}" --output-on-failure
+        COMMENT "Running test named '${name}'"
     )
-    list(APPEND CHECK_TARGETS check_${test_name})
+    list(APPEND CHECK_TARGETS check_${name})
+
+    if(NOT TARGET check_${group})
+        add_custom_target(check_${group}
+            COMMAND ${CMAKE_CTEST_COMMAND} -R "^t_${group}_.*" --output-on-failure
+            COMMENT "Running all tests in group '${group}'"
+        )
+    endif()
+
 endforeach()
 
-# all test targets
 add_custom_target(check
     DEPENDS ${CHECK_TARGETS}
-    COMMENT "Running all unit tests"
+    COMMENT "Running all tests"
 )
