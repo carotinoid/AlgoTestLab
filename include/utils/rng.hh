@@ -1,3 +1,6 @@
+#ifndef UTILS_RNG_HH
+#define UTILS_RNG_HH
+
 #include <chrono>
 #include <climits>
 #include <random>
@@ -7,3 +10,5 @@ int randint(int L = INT_MIN, int R = INT_MAX) {
     std::uniform_int_distribution<int> uni(L, R);
     return uni(rng);
 }
+
+#endif  // UTILS_RNG_HH

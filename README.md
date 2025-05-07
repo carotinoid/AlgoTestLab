@@ -4,7 +4,7 @@
 ---
 
 ## Project Overview
-This project aims to provide a simple, user-friendly environment for learning and implementing algorithms and data structures. It includes an automated testing system based on GoogleTest (gtest) to verify the correctness of implementations. The initial focus is on implementing algorithms from the POSTECH CSED331 (Algorithms) course.
+This project aims to provide a simple, user-friendly environment for learning and implementing algorithms and data structures. It includes an automated testing system based on ctest to verify the correctness of implementations. The initial focus is on implementing algorithms from the POSTECH CSED331 (Algorithms) course.
 
 ### Key Features:
 - Environment for learning and implementing algorithms and data structures
@@ -27,7 +27,7 @@ AlgoTestLab
 │   │   └── ...
 │   └── ...
 └── tests/                      - Tests
-    ├── test_....cc
+    ├── t_....cc
     └── ...
 ```
 
