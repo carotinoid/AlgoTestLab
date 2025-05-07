@@ -19,6 +19,30 @@ Output: A list of then integers sorted in increasing order
 */
 #include <algorithm>
 std::vector<int> mergesort(std::vector<int> vec) {
-    DUMMY_CODE(vec);
-    return {};
+    if (vec.size() == 1)
+        return vec;
+    if (vec.size() == 2) {
+        if (vec[0] > vec[1])
+            std::swap(vec[0], vec[1]);
+        return vec;
+    }
+    std::vector<int> L(vec.begin(), vec.begin() + vec.size() / 2);
+    std::vector<int> R(vec.begin() + vec.size() / 2, vec.end());
+    L = mergesort(L);
+    R = mergesort(R);
+    std::vector<int> res{};
+    int Lsize = L.size(), Rsize = R.size(), l = 0, r = 0;
+    while (l < Lsize or r < Rsize) {
+        if (l >= Lsize)
+            res.push_back(R[r++]);
+        else if (r >= Rsize)
+            res.push_back(L[l++]);
+        else {
+            if (L[l] > R[r])
+                res.push_back(R[r++]);
+            else
+                res.push_back(L[l++]);
+        }
+    }
+    return res;
 }
