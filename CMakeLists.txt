@@ -79,6 +79,6 @@ foreach(test_file ${TEST_FILES})
 endforeach()
 
 add_custom_target(check
-    DEPENDS ${CHECK_TARGETS}
+    COMMAND ${CMAKE_CTEST_COMMAND} -R "^t_.*_.*" --output-on-failure
     COMMENT "Running all tests"
 )

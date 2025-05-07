@@ -1,10 +1,10 @@
-#include "utils/test_helper.hh"
-#include "utils/rng.hh"
 #include "divide_and_conquer/mergesort.hh"
+#include "utils/rng.hh"
+#include "utils/test_helper.hh"
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 int main() {
     try {
@@ -18,7 +18,7 @@ int main() {
             EXPECT_EQ(res, vec);
         }
 
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cerr << "Test failed: " << e.what() << std::endl;
         return 1;
     }
