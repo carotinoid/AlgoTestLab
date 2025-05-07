@@ -31,6 +31,17 @@ AlgoTestLab
     └── ...
 ```
 
+This is how testcase is organized.
+```txt
+Filename: t_<group>_<testcase>.cc
+```
+You have several options to run the tests:
+- `make check_<testcase>`: This command will run the specific one test case, e.g., `make check_mergesort` means the test case `t_dq_mergesort.cc`.
+- `make check_<group>`: This command will run all test cases in the specified group, e.g., `make check_dq` means all test cases in the `divide_and_conquer` group.
+- `make check`: This command will run all test cases in the project.
+
+
+
 ## Getting Started
 
 ### Requirements
