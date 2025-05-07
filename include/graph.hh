@@ -24,4 +24,4 @@ class Graph {
     void describe(std::string name = "");
 };
 
-#endif // GRAPH_HH
+#endif  // GRAPH_HH

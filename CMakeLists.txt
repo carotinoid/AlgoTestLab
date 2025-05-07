@@ -10,7 +10,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library(algo STATIC src/graphs/graph.cc)
+
+file(GLOB LIB_SOURCES "${CMAKE_SOURCE_DIR}/src/*/*.cc" "${CMAKE_SOURCE_DIR}/src/*.cc")
+
+add_library(
+    algo STATIC
+    ${LIB_SOURCES}
+)
 
 ### clang-format
 find_program(CLANG_FORMAT_EXE NAMES clang-format)
